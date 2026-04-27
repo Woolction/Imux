@@ -1,3 +1,5 @@
+using Imux.Enums;
+
 namespace Imux.App.Responses;
 
 public struct OptionValue

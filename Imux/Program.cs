@@ -4,15 +4,15 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        if (args.Length < 1 || args[0] != "Imux")
+        if (args.Length < 1)
         {
             Console.WriteLine($"empty args: {args.Length}");
 
             return;
         }
-        if (args[0] != "Imux")
+        if (args[0] != "imux")
         {
-            Console.WriteLine($"first argument must be Imux: {args[0]}");
+            Console.WriteLine($"first argument must be <imux>: {args[0]}");
 
             return;
         }
