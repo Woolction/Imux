@@ -1,4 +1,4 @@
-namespace Imux.Handlers;
+namespace Imux.App.Handlers;
 
 public interface IHandler
 {
