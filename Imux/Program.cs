@@ -2,17 +2,19 @@
 
 public class Program
 {
+    private static readonly string header = "[Program]";
+    
     public static void Main(string[] args)
     {
         if (args.Length < 1)
         {
-            Console.WriteLine($"empty args: {args.Length}");
+            Console.WriteLine($"{header} empty args: {args.Length}");
 
             return;
         }
         if (args[0] != "imux")
         {
-            Console.WriteLine($"first argument must be <imux>: {args[0]}");
+            Console.WriteLine($"{header} first argument must be <imux>: {args[0]}");
 
             return;
         }

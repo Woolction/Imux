@@ -11,6 +11,8 @@ public class CopyHandler : IHandler
 
     private byte[] copyedBytes = [];
 
+    private bool isCopied;
+
     public CopyHandler(string[] args)
     {
         values = args;
@@ -27,13 +29,15 @@ public class CopyHandler : IHandler
             {
                 OptionValue value = paths[i];
 
-                if (value.OptionType == OptionType.Input)
+                if (value.OptionType == OptionType.Input && !isCopied)
                 {
                     byte[] bytes = File.ReadAllBytes(value.Path);
 
                     copyedBytes = bytes;
+
+                    isCopied = true;
                 }
-                else if (value.OptionType == OptionType.Output)
+                else if (value.OptionType == OptionType.Output && isCopied)
                 {
                     try
                     {

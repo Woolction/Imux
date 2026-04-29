@@ -17,8 +17,6 @@ public class PathFinder
         {
             string value = values[i];
 
-            //Console.WriteLine($"{header} arg value: {value}");
-
             for (int j = 0; j < queries.Length; j++)
             {
                 if (value == queries[j].Query)
