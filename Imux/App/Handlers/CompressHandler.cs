@@ -7,7 +7,7 @@ public class CompressHandler : IHandler
 {
     private readonly string[] values;
 
-    private byte[] compressedBytes;
+    private byte[] compressedBytes = [];
 
     public CompressHandler(string[] args)
     {
@@ -17,8 +17,7 @@ public class CompressHandler : IHandler
     public void Handle()
     {
         List<OptionValue> paths = PathFinder.FindValue(values,
-            new("input", OptionType.Input),
-            new("output", OptionType.Output));
+            new("input", OptionType.Input), new("output", OptionType.Output));
 
         if (paths.Count == 2)
         {
@@ -31,10 +30,14 @@ public class CompressHandler : IHandler
                     byte[] bytes = File.ReadAllBytes(value.Path);
 
                     compressedBytes = bytes;
+
+                    Console.WriteLine("[CompressHandler] image compressed");
                 }
                 else if (value.OptionType == OptionType.Output)
                 {
                     File.WriteAllBytes(value.Path, compressedBytes);
+
+                    Console.WriteLine("[CompressHandler] new bytes writed");
                 }
             }
         }
@@ -44,16 +47,35 @@ public class CompressHandler : IHandler
 
             if (value.OptionType != OptionType.Input)
             {
-                Console.WriteLine("you must write input!");
+                Console.WriteLine("[CompressHandler] you must write input!");
 
                 return;
             }
+
+            byte[] bytes = File.ReadAllBytes(value.Path);
+
+            compressedBytes = bytes;
+
+            Console.WriteLine("[CompressHandler] image compressed");
+
+            string path = Path.Combine("C:", "Users", "croto", "OneDrive", "Изображения", "newia.png");
+
+            File.Create(path)
+                .Close();
+
+            Console.WriteLine("[CompressHandler] create new file");
+
+            File.WriteAllBytes(path, compressedBytes);
+
+            Console.WriteLine("[CompressHandler] new bytes writed");
         }
         else
         {
-            Console.WriteLine();
+            Console.WriteLine($"[CompressHandler] unknown error {paths.Count}");
+
+            return;
         }
 
-        Console.WriteLine("Success");
+        Console.WriteLine($"[CompressHandler] Success {paths.Count}");
     }
 }

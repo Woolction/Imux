@@ -9,20 +9,30 @@ public class PathFinder
     {
         List<OptionValue> paths = new();
 
+        Console.WriteLine($"[PathFinder] args lenght: {values.Length}, queries lenght: {queries.Length}");
+
         for (int i = 0; i < values.Length; i++)
         {
             string value = values[i];
+
+            //Console.WriteLine($"[PathFinder] arg value: {value}");
 
             for (int j = 0; j < queries.Length; j++)
             {
                 if (value == queries[j].Query)
                 {
-                    if (i++ < values.Length)
+                    Console.WriteLine($"[PathFinder] parametr: {value}");
+
+                    int index = i + 1;
+
+                    if (index < values.Length)
                     {
-                        string path = Path.GetFullPath(values[i++]);
+                        string path = Path.GetFullPath(values[index]);
 
                         if (Path.Exists(path))
                         {
+                            Console.WriteLine($"[PathFinder] finded path: {path} index: {index}");
+                            
                             paths.Add(new OptionValue()
                             {
                                 Path = path,
@@ -30,6 +40,8 @@ public class PathFinder
                             });
                         }
                     }
+
+                    break;
                 }
             }
         }
