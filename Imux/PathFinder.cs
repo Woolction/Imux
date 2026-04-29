@@ -5,23 +5,25 @@ namespace Imux;
 
 public class PathFinder
 {
+    private static readonly string header = "[PathFinder]";
+
     public static List<OptionValue> FindValue(string[] values, params FindOptionValueQuery[] queries)
     {
         List<OptionValue> paths = new();
 
-        Console.WriteLine($"[PathFinder] args lenght: {values.Length}, queries lenght: {queries.Length}");
+        Console.WriteLine($"{header} args lenght: {values.Length}, queries lenght: {queries.Length}");
 
         for (int i = 0; i < values.Length; i++)
         {
             string value = values[i];
 
-            //Console.WriteLine($"[PathFinder] arg value: {value}");
+            //Console.WriteLine($"{header} arg value: {value}");
 
             for (int j = 0; j < queries.Length; j++)
             {
                 if (value == queries[j].Query)
                 {
-                    Console.WriteLine($"[PathFinder] parametr: {value}");
+                    Console.WriteLine($"{header} parametr: {value}");
 
                     int index = i + 1;
 
@@ -31,7 +33,7 @@ public class PathFinder
 
                         if (Path.Exists(path))
                         {
-                            Console.WriteLine($"[PathFinder] finded path: {path} index: {index}");
+                            Console.WriteLine($"{header} finded path: {path} index: {index}");
                             
                             paths.Add(new OptionValue()
                             {
