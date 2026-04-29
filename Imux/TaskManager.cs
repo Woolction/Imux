@@ -9,6 +9,6 @@ public static class TaskManager
     public static void InitTasks(string[] args)
     {
         //commands
-        Tasks["compress"] = new CompressHandler(args);
+        Tasks["copy"] = new CopyHandler(args);
     }
 }

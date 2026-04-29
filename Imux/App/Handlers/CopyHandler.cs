@@ -4,13 +4,14 @@ using Imux.Enums;
 
 namespace Imux.App.Handlers;
 
-public class CompressHandler : IHandler
+public class CopyHandler : IHandler
 {
+    private readonly string header = "[CopyHandler]";
     private readonly string[] values;
 
-    private byte[] compressedBytes = [];
+    private byte[] copyedBytes = [];
 
-    public CompressHandler(string[] args)
+    public CopyHandler(string[] args)
     {
         values = args;
     }
@@ -30,21 +31,19 @@ public class CompressHandler : IHandler
                 {
                     byte[] bytes = File.ReadAllBytes(value.Path);
 
-                    compressedBytes = bytes;
-
-                    Console.WriteLine("[CompressHandler] image compressed");
+                    copyedBytes = bytes;
                 }
                 else if (value.OptionType == OptionType.Output)
                 {
                     try
                     {
-                        File.WriteAllBytes(value.Path, compressedBytes);
+                        File.WriteAllBytes(value.Path, copyedBytes);
 
-                        Console.WriteLine("[CompressHandler] new bytes writed");
+                        Console.WriteLine($"{header} new bytes writed");
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"[CompressHandler] Error in writting: {ex}");
+                        Console.WriteLine($"{header} Error in writting: {ex}");
 
                         return;
                     }
@@ -57,22 +56,20 @@ public class CompressHandler : IHandler
 
             if (value.OptionType != OptionType.Input)
             {
-                Console.WriteLine("[CompressHandler] you must write input!");
+                Console.WriteLine($"{header} you must write input!");
 
                 return;
             }
 
             byte[] bytes = File.ReadAllBytes(value.Path);
 
-            compressedBytes = bytes;
-
-            Console.WriteLine("[CompressHandler] image compressed");
+            copyedBytes = bytes;
 
             string? pathDir = Path.GetDirectoryName(value.Path);
 
             if (pathDir == null)
             {
-                Console.WriteLine($"[CompressHandler] directory is null: {value.Path}");
+                Console.WriteLine($"{header} directory is null: {value.Path}");
 
                 return;
             }
@@ -91,30 +88,30 @@ public class CompressHandler : IHandler
                 counter++;
             }
             while (File.Exists(newPath));
-            
 
-            Console.WriteLine("[CompressHandler] ");
+
+            Console.WriteLine($"{header} ");
 
             try
             {
-                File.WriteAllBytes(newPath, compressedBytes);
+                File.WriteAllBytes(newPath, copyedBytes);
 
-                Console.WriteLine($"[CompressHandler] create new file {newPath} bytes writed");
+                Console.WriteLine($"{header} create new file {newPath} bytes writed");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Console.WriteLine($"[CompressHandler] Error in writting: {ex}");
+                Console.WriteLine($"{header} Error in writting: {ex}");
 
                 return;
             }
         }
         else
         {
-            Console.WriteLine($"[CompressHandler] unknown error {paths.Count}");
+            Console.WriteLine($"{header} unknown error {paths.Count}");
 
             return;
         }
 
-        Console.WriteLine($"[CompressHandler] Success {paths.Count}");
+        Console.WriteLine($"{header} Success {paths.Count}");
     }
 }
