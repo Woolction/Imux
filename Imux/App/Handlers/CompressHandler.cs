@@ -1,3 +1,4 @@
+using System.Text;
 using Imux.App.Responses;
 using Imux.Enums;
 
@@ -35,9 +36,18 @@ public class CompressHandler : IHandler
                 }
                 else if (value.OptionType == OptionType.Output)
                 {
-                    File.WriteAllBytes(value.Path, compressedBytes);
+                    try
+                    {
+                        File.WriteAllBytes(value.Path, compressedBytes);
 
-                    Console.WriteLine("[CompressHandler] new bytes writed");
+                        Console.WriteLine("[CompressHandler] new bytes writed");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[CompressHandler] Error in writting: {ex}");
+
+                        return;
+                    }
                 }
             }
         }
@@ -58,16 +68,45 @@ public class CompressHandler : IHandler
 
             Console.WriteLine("[CompressHandler] image compressed");
 
-            string path = Path.Combine("C:", "Users", "croto", "OneDrive", "Изображения", "newia.png");
+            string? pathDir = Path.GetDirectoryName(value.Path);
 
-            File.Create(path)
-                .Close();
+            if (pathDir == null)
+            {
+                Console.WriteLine($"[CompressHandler] directory is null: {value.Path}");
 
-            Console.WriteLine("[CompressHandler] create new file");
+                return;
+            }
 
-            File.WriteAllBytes(path, compressedBytes);
+            string pathName = Path.GetFileNameWithoutExtension(value.Path);
+            string pathExt = Path.GetExtension(value.Path);
 
-            Console.WriteLine("[CompressHandler] new bytes writed");
+            int counter = 1;
+
+            string newPath;
+
+            do
+            {
+                newPath = Path.Combine(pathDir, pathName + $"({counter})" + pathExt);
+
+                counter++;
+            }
+            while (File.Exists(newPath));
+            
+
+            Console.WriteLine("[CompressHandler] ");
+
+            try
+            {
+                File.WriteAllBytes(newPath, compressedBytes);
+
+                Console.WriteLine($"[CompressHandler] create new file {newPath} bytes writed");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"[CompressHandler] Error in writting: {ex}");
+
+                return;
+            }
         }
         else
         {
